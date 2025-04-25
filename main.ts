@@ -111,5 +111,30 @@ const prisma = new PrismaClient()
 //     }})
 //     console.table(poderes)
 // }
+
+// // Groupe By
+// async function main() {
+//     const podDiv = await prisma.poderDivindade.groupBy({
+//        by: ['serNome'],
+//             _count: {
+//                 poderId: true,
+//             }})
+//      console.table(podDiv)
+// }
+    
+//Order By
+async function main() {
+    const podDiv = await prisma.artefatoPoder.groupBy({
+    by: ['artefatoNome'],
+        _count: {
+            poderId: true,
+        },
+    orderBy: {
+        _count: {
+            poderId: 'desc',
+        }}})
+    console.table(podDiv )
+}
    
+
 main()
