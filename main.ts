@@ -84,20 +84,32 @@ const prisma = new PrismaClient()
 //     console.table(artefatos)
 // }
    
-//Where OR
-async function main() {
-    const poderes = await prisma.poder.findMany({
-        select: {
-            nome: true,
-            descricao: true,
-        },
-        where: {
-            OR: [
-                { nome: 'invocação' },
-                { nome: 'vôo' },
-            ]
-        }})
-    console.table(poderes)
-}
+// //Where OR
+// async function main() {
+//     const poderes = await prisma.poder.findMany({
+//         select: {
+//             nome: true,
+//             descricao: true,
+//         },
+//         where: {
+//             OR: [
+//                 { nome: 'invocação' },
+//                 { nome: 'vôo' },
+//             ]
+//         }})
+//     console.table(poderes)
+// }
+
+// //Where
+// async function main() {
+//     const poderes = await prisma.poder.findMany({
+//         where: {
+//         nome: {
+//             contains: 'ele',
+//             mode: 'insensitive',
+//         }
+//     }})
+//     console.table(poderes)
+// }
    
 main()
