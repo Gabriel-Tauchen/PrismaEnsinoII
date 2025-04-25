@@ -122,18 +122,33 @@ const prisma = new PrismaClient()
 //      console.table(podDiv)
 // }
     
-//Order By
+// //Order By
+// async function main() {
+//     const podDiv = await prisma.artefatoPoder.groupBy({
+//     by: ['artefatoNome'],
+//         _count: {
+//             poderId: true,
+//         },
+//     orderBy: {
+//         _count: {
+//             poderId: 'desc',
+//         }}})
+//     console.table(podDiv )
+// }
+
+//Having
 async function main() {
-    const podDiv = await prisma.artefatoPoder.groupBy({
-    by: ['artefatoNome'],
-        _count: {
-            poderId: true,
-        },
-    orderBy: {
-        _count: {
-            poderId: 'desc',
-        }}})
-    console.table(podDiv )
+    const podDiv = await prisma.poderDivindade.groupBy({
+        by: ['serNome'],
+            _count: {
+                poderId: true,
+            },
+        having: {
+            serNome: {
+                _count: {
+                    gt: 3,
+        }}}})
+   console.table(podDiv)
 }
    
 
