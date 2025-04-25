@@ -44,15 +44,60 @@ const prisma = new PrismaClient()
 //     seres.forEach(s => {console.log(s.nome + " " + s.tipo)})
 // }
 
-// include:{} quais relações são carregadas no retorno
+// // include:{} quais relações são carregadas no retorno
+// async function main() {
+//     const seres = await prisma.ser.findMany({include:{artefatos: true}})
+    
+//     seres.forEach(s => {
+//      console.log(s.nome)
+//      s.artefatos.forEach(a =>{console.log("artefato:"+a.nome+" "+a.destruido)})})
+// }
+    
+// //Where
+// async function main() {
+//     const ativos = await prisma.artefato.findMany({
+//         where: {
+//             destruido: false,
+//         },})
+//     console.table(ativos)
+// }
+   
+// //Where - AND implícito
+// async function main() {
+//     const artefatos= await prisma.artefato.findMany({
+//         where: {
+//             destruido: false,
+//             objeto: 'martelo',
+//         },})
+//     console.table(artefatos)
+// }
+   
+// //Where - AND explícito
+// async function main() {
+//     const artefatos = await prisma.artefato.findMany({
+//         where: {
+//             AND: [
+//                 { destruido: false },
+//                 { objeto: 'martelo' },
+//             ]
+//         }})
+//     console.table(artefatos)
+// }
+   
+//Where OR
 async function main() {
-    const seres = await prisma.ser.findMany({include:{artefatos: true}})
-    
-    seres.forEach(s => {
-     console.log(s.nome)
-     s.artefatos.forEach(a =>{console.log("artefato:"+a.nome+" "+a.destruido)})})
+    const poderes = await prisma.poder.findMany({
+        select: {
+            nome: true,
+            descricao: true,
+        },
+        where: {
+            OR: [
+                { nome: 'invocação' },
+                { nome: 'vôo' },
+            ]
+        }})
+    console.table(poderes)
 }
-    
-
-
+   
 main()
