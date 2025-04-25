@@ -37,12 +37,22 @@ const prisma = new PrismaClient()
 //         s.artefatos.forEach(a =>{console.log("artefato:"+a.nome)})})
 //     }
     
-//omit:{} Especifica quais propriedades serão excluídas no retorno.
-async function main() {
-    const seres = await prisma.ser.findMany({omit:{nome: true}})
+// //omit:{} Especifica quais propriedades serão excluídas no retorno.
+// async function main() {
+//     const seres = await prisma.ser.findMany({omit:{nome: true}})
     
-    seres.forEach(s => {console.log(s.nome + " " + s.tipo)})
+//     seres.forEach(s => {console.log(s.nome + " " + s.tipo)})
+// }
+
+// include:{} quais relações são carregadas no retorno
+async function main() {
+    const seres = await prisma.ser.findMany({include:{artefatos: true}})
+    
+    seres.forEach(s => {
+     console.log(s.nome)
+     s.artefatos.forEach(a =>{console.log("artefato:"+a.nome+" "+a.destruido)})})
 }
     
+
 
 main()
