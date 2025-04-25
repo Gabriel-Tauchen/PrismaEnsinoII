@@ -13,3 +13,66 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Poder {
+  idPoder Int @id @default(autoincrement())
+  nome String @unique
+  descricao String
+  poderes ArtefatoPoder[]
+  divindades PoderDivindade []
+}
+model PoderDivindade {
+  serNome String
+  divindade Ser @relation(fields: [serNome], references: [nome])
+  poderId Int
+  poder Poder @relation(fields: [poderId], references: [idPoder])
+  @@id([serNome , poderId])
+}
+model ArtefatoPoder {
+  artefatoNome String
+  artefato Artefato @relation(fields: [artefatoNome], references: [nome])
+  poderId Int
+  poder Poder @relation(fields: [poderId], references: [idPoder])
+  @@id([artefatoNome, poderId])
+  @@map("ArtefatoPoder")
+}
+model Artefato{
+  nome String @id
+  objeto String
+  material String
+  destruido Boolean
+  nomeSer String
+  ser Ser @relation(fields: [nomeSer], references: [nome])
+  artefatos ArtefatoPoder[]
+}
+enum TipoSer {
+  SER
+  MORTAL
+  DIVINDADE
+}
+model SerSer{
+  responsavel Ser @relation("serResponsavel", fields: [nomeResponsavel], references: [nome])
+  nomeResponsavel String
+  filho Ser @relation("serFilho", fields: [nomeFilho], references: [nome])
+  nomeFilho String
+  @@id([nomeResponsavel, nomeFilho])
+}
+model Ser {
+  nome String @id
+  sexo String
+  morto Boolean
+  tipo TipoSer
+  fraqueza String? //Divindade
+  designacao String? //Divindade
+  restituirVita Boolean? //Divindade
+  poderes PoderDivindade[] //Divindade
+  nascimento DateTime? //Mortal
+  raca String? //Mortal
+  profissao String? //Mortal
+  artefatos Artefato[]
+  responsaveis SerSer[] @relation("serResponsavel")
+  filhos SerSer[] @relation("serFilho")
+  nomeMortal String? @unique //Divindade
+  hospedeiro Ser? @relation("serMortal", fields: [nomeMortal], references:[nome]) //Divindade
+  divino Ser? @relation("serMortal") //Mortal
+}
